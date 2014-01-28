@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 8080, host: 8080
 
   # DEV: Customize your projects folder here
-  config.vm.synced_folder "path/to/my/repos", "/var/www/projects"
+  config.vm.synced_folder "/home/todd/github", "/var/www/projects"
 
   # Update apt-get once
   $update_apt_get = <<SCRIPT
