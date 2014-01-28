@@ -36,7 +36,7 @@ vagrant up
 
 When the instance is complete, you should be able to access your GitList instance at
 
-[http://localhost:8080/](http://localhost:8080/)
+http://127.0.0.1:8080/
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style.
