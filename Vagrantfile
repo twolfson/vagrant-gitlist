@@ -53,7 +53,7 @@ SCRIPT
     # Take ownership of gitlist
     sudo chown vagrant -R /var/www/gitlist/
     cd /var/www/gitlist/
-    cp config.ini-example config.ini
+    sed config.ini-example -e "s/\/home\/git\/repositories\//\/var\/www\/projects/" > config.ini
 
     # Install cache folder
     mkdir cache
