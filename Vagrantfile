@@ -64,9 +64,6 @@ SCRIPT
 SCRIPT
   config.vm.provision "shell", inline: $install_gitlist
 
-  # TODO: Prompt user to do this or somehow automate it
-  # pico config.ini # repositories[] = 'path/to/linked/folders'
-
   # Configure nginx
   $config_nginx = <<SCRIPT
   if ! test -f /etc/nginx/conf.d/gitlist.conf; then
