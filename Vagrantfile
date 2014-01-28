@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
 SCRIPT
   config.vm.provision "shell", inline: $update_apt_get
 
-  # Install test dependency on `git`
+  # Install dependency on `git`
   $install_git = <<SCRIPT
   if ! which git &> /dev/null; then
     sudo apt-get install git -y
@@ -26,39 +26,54 @@ SCRIPT
 SCRIPT
   config.vm.provision "shell", inline: $install_git
 
+  # Install dependency on `php`
+  $install_php = <<SCRIPT
+  if ! which php &> /dev/null; then
+    sudo apt-get install php5-cli php5-fpm -y
+  fi
+SCRIPT
+  config.vm.provision "shell", inline: $install_php
 
-  # TODO: Install test dependency on `php`
-  # sudo apt-get install php5-cli php5-fpm
+  # Install dependency on `nginx`
+  $install_nginx = <<SCRIPT
+  if ! test -d /etc/nginx/; then
+    sudo apt-get install nginx -y
+  fi
+SCRIPT
+  config.vm.provision "shell", inline: $install_nginx
 
-  # TODO: Install test dependency on `nginx`
-  # sudo apt-get install nginx
+  # Install dependency on `gitlist` itself
+  $install_gitlist = <<SCRIPT
+  if ! test -d /var/www/gitlist; then
+    # Download and extract gitlist
+    cd /tmp
+    wget https://s3.amazonaws.com/gitlist/gitlist-0.4.0.tar.gz
+    sudo tar -xzvf gitlist-0.4.0.tar.gz -C /var/www/
 
-  # TODO: Install test dependency on `gitlist` itself
-  # wget https://s3.amazonaws.com/gitlist/gitlist-0.4.0.tar.gz
-  # sudo tar -xzvf gitlist-0.4.0.tar.gz -C /var/www/
-  # sudo chown $USER -R /var/www/gitlist/
-  # cd /var/www/gitlist/
-  # cp config.ini-example config.ini
+    # Take ownership of gitlist
+    sudo chown vagrant -R /var/www/gitlist/
+    cd /var/www/gitlist/
+    cp config.ini-example config.ini
+
+    # Install cache folder
+    mkdir cache
+    chmod 777 cache
+  fi
+SCRIPT
+  config.vm.provision "shell", inline: $install_gitlist
+
+  # TODO: Prompt user to do this or somehow automate it
   # pico config.ini # repositories[] = 'path/to/linked/folders'
 
-  # mkdir cache
-  # chmod 777 cache
+  # Configure nginx
+  $config_nginx = <<SCRIPT
+  if ! test -f /etc/nginx/conf.d/gitlist.conf; then
+    # Copy over nginx config
+    sudo cp /vagrant/nginx.conf /etc/nginx/conf.d/gitlist.conf
 
-  # Copy over nginx conf from https://github.com/klaussilveira/gitlist/blob/master/INSTALL.md#nginx-serverconf
-  # listen 8080;
-  # server_name localhost;
-  # # access_log /var/log/nginx/gitlist.access_log main;
-  # access_log /var/log/nginx/gitlist.access_log;
-  # error_log /var/log/nginx/gitlist.error_log debug_http;
-
-  # root /var/www/gitlist;
-  # index index.php;
-
-  # ...
-  #  #       include fastcgi.conf;
-  #      include fastcgi_params;
-
-  # Set up nginx
-  # sudo mkdir -p /var/log/nginx/
-  # sudo /etc/init.d/nginx restart
+    # Restart nginx
+    sudo /etc/init.d/nginx restart
+  fi
+SCRIPT
+  config.vm.provision "shell", inline: $config_nginx
 end
