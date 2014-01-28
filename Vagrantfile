@@ -6,8 +6,8 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   config.vm.network "forwarded_port", guest: 8080, host: 8080
 
-  # # TODO: Remove this as it is for personal development
-  # config.vm.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  # DEV: Customize your projects folder here
+  config.vm.synced_folder "path/to/my/repos", "/var/www/projects"
 
   # Update apt-get once
   $update_apt_get = <<SCRIPT
@@ -26,8 +26,6 @@ SCRIPT
 SCRIPT
   config.vm.provision "shell", inline: $install_git
 
-  # DEV: Customize your projects folder here
-  config.vm.synced_folder "/home/todd/github", "/var/www/projects"
 
   # TODO: Install test dependency on `php`
   # sudo apt-get install php5-cli php5-fpm
