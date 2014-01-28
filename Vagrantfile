@@ -53,6 +53,7 @@ SCRIPT
     # Take ownership of gitlist
     sudo chown vagrant -R /var/www/gitlist/
     cd /var/www/gitlist/
+    # DEV: This must be twice escaped slashes to account for being inside of ruby
     sed 's/\\/home\\/git\\/repositories\\//\\/var\\/www\\/projects/' config.ini-example > config.ini
     sudo chown vagrant /var/www/gitlist/config.ini
 
