@@ -43,14 +43,6 @@ SCRIPT
   config.vm.provision "shell", inline: $install_nginx
 
   # Install dependency on `gitlist` itself
-  $dev = <<SCRIPT
-    sudo chown vagrant -R /var/www/gitlist/
-    cd /var/www/gitlist/
-    sed 's/\\/home\\/git\\/repositories\\//\\/var\\/www\\/projects/' config.ini-example > config.ini
-    sudo chown vagrant /var/www/gitlist/config.ini
-SCRIPT
-  config.vm.provision "shell", inline: $dev
-
   $install_gitlist = <<SCRIPT
   if ! test -d /var/www/gitlist; then
     # Download and extract gitlist
@@ -61,7 +53,7 @@ SCRIPT
     # Take ownership of gitlist
     sudo chown vagrant -R /var/www/gitlist/
     cd /var/www/gitlist/
-    sed config.ini-example -e "s/\/home\/git\/repositories\//\/var\/www\/projects/" > config.ini
+    sed 's/\\/home\\/git\\/repositories\\//\\/var\\/www\\/projects/' config.ini-example > config.ini
     sudo chown vagrant /var/www/gitlist/config.ini
 
     # Install cache folder
