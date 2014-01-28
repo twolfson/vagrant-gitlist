@@ -46,7 +46,7 @@ SCRIPT
   $dev = <<SCRIPT
     sudo chown vagrant -R /var/www/gitlist/
     cd /var/www/gitlist/
-    sed config.ini-example -e "s/\/home\/git\/repositories\//\/var\/www\/projects/" > config.ini
+    sed 's/\\/home\\/git\\/repositories\\//\\/var\\/www\\/projects/' config.ini-example > config.ini
     sudo chown vagrant /var/www/gitlist/config.ini
 SCRIPT
   config.vm.provision "shell", inline: $dev
