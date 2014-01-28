@@ -1,12 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-  # TODO: Remove this as it is for personal development
-  config.vm.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  # # TODO: Remove this as it is for personal development
+  # config.vm.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 
   # Update apt-get once
   $update_apt_get = <<SCRIPT
@@ -25,6 +25,9 @@ SCRIPT
 SCRIPT
   config.vm.provision "shell", inline: $install_git
 
+  # DEV: Customize your projects folder here
+  config.vm.synced_folder "/home/todd/github", "/var/www/projects"
+
   # TODO: Install test dependency on `php`
   # sudo apt-get install php5-cli php5-fpm
 
@@ -41,4 +44,22 @@ SCRIPT
 
   # mkdir cache
   # chmod 777 cache
+
+  # Copy over nginx conf from https://github.com/klaussilveira/gitlist/blob/master/INSTALL.md#nginx-serverconf
+  # listen 8080;
+  # server_name localhost;
+  # # access_log /var/log/nginx/gitlist.access_log main;
+  # access_log /var/log/nginx/gitlist.access_log;
+  # error_log /var/log/nginx/gitlist.error_log debug_http;
+
+  # root /var/www/gitlist;
+  # index index.php;
+
+  # ...
+  #  #       include fastcgi.conf;
+  #      include fastcgi_params;
+
+  # Set up nginx
+  # sudo mkdir -p /var/log/nginx/
+  # sudo /etc/init.d/nginx restart
 end
