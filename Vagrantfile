@@ -26,6 +26,19 @@ SCRIPT
   config.vm.provision "shell", inline: $install_git
 
   # TODO: Install test dependency on `php`
+  # sudo apt-get install php5-cli php5-fpm
+
   # TODO: Install test dependency on `nginx`
+  # sudo apt-get install nginx
+
   # TODO: Install test dependency on `gitlist` itself
+  # wget https://s3.amazonaws.com/gitlist/gitlist-0.4.0.tar.gz
+  # sudo tar -xzvf gitlist-0.4.0.tar.gz -C /var/www/
+  # sudo chown $USER -R /var/www/gitlist/
+  # cd /var/www/gitlist/
+  # cp config.ini-example config.ini
+  # pico config.ini # repositories[] = 'path/to/linked/folders'
+
+  # mkdir cache
+  # chmod 777 cache
 end
