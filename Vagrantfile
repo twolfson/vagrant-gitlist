@@ -5,6 +5,9 @@ Vagrant::Config.run do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
+  # TODO: Remove this as it is for personal development
+  config.vm.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+
   # Update apt-get once
   $update_apt_get = <<SCRIPT
   if ! test -f .updated_apt_get; then
