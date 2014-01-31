@@ -1,23 +1,45 @@
-# vagrant-gitlist [![Build status](https://travis-ci.org/twolfson/vagrant-gitlist.png?branch=master)](https://travis-ci.org/twolfson/vagrant-gitlist)
+# vagrant-gitlist
 
-Plug and play Vagrantfile for GitList
+Plug and play [Vagrantfile][Vagrant] for [GitList][]
+
+[Vagrant]: http://www.vagrantup.com/
+[GitList]: http://gitlist.org/
+
+![Screenshot of working GitList](docs/screenshot.png)
 
 ## Getting Started
-Install the module with: `npm install vagrant-gitlist`
+Install [Vagrant][] as instructed by http://www.vagrantup.com/
 
-```javascript
-var vagrant_gitlist = require('vagrant-gitlist');
-vagrant_gitlist.awesome(); // "awesome"
+Clone the repository via `git`
+
+```bash
+git clone https://github.com/twolfson/vagrant-gitlist
 ```
 
-## Documentation
-_(Coming soon)_
+Modify the `Vagrantfile` to display your repositories folder
 
-## Examples
-_(Coming soon)_
+```bash
+cd vagrant-gitlist
+pico Vagrantfile
+# Update the following line
+# config.vm.synced_folder "path/to/my/repos", "/var/www/projects"
+# Example:
+# config.vm.synced_folder "/home/todd/github", "/var/www/projects"
+```
+
+Launch the Vagrant instance
+
+```bash
+vagrant up
+# Bringing machine 'default' up with 'virtualbox' provider...
+```
+
+When the instance is complete, you should be able to access your GitList instance at
+
+http://127.0.0.1:8080/
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via [grunt](https://github.com/gruntjs/grunt) and test via `npm test`.
+In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Donating
 Support this project and [others by twolfson][gittip] via [gittip][].
